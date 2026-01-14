@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-
+<link
+  href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap"
+  rel="stylesheet"
+/>;
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
