@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import {
+import { 
   FaPhone,
   FaFire,
   FaSnowflake,
@@ -12,9 +12,10 @@ import { FaAirbnb } from "react-icons/fa6";
 
 export default function Hero() {
   return (
-    <section className="relative w-full min-h-screen bg-[#FAF9F6] flex flex-col lg:flex-row font-sans overflow-hidden">
+    <section className="relative w-full min-h-[90vh] bg-[#FAF9F6] flex flex-col lg:flex-row font-sans overflow-hidden">
       {/* LEFT CONTENT */}
       <div className="w-full lg:w-1/2 flex flex-col justify-start items-start px-6 md:px-16 lg:px-24 xl:px-44 py-20 lg:py-24 z-10">
+        
         {/* Badge */}
         <div className="mb-10 relative">
           <div className="absolute inset-0 bg-[#171717]/5 blur-md rounded-full"></div>
@@ -33,9 +34,9 @@ export default function Hero() {
 
         {/* Title */}
         <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-[#171717] leading-tight mb-6">
-          Twój Azyl <br />
+          Śnieżka na dłoni. <br />
           <span className="text-[#D4A373] font-serif italic font-normal text-4xl md:text-5xl">
-            w Karkonoszach
+            Blisko Karpacza.
           </span>
         </h1>
 
@@ -48,13 +49,9 @@ export default function Hero() {
         {/* Features */}
         <div className="flex flex-wrap gap-6 mb-12">
           {[
-            { icon: <FaFire />, title: "Kominek", desc: "Drewno gratis" },
-            {
-              icon: <FaHotTub className="text-[#D4A373]" />,
-              title: "Jacuzzi",
-              desc: "Prywatne",
-            },
-            { icon: <FaSnowflake />, title: "Szlak", desc: "200 metrów" },
+            { icon: <FaFire />, title: "Kominek", desc: "Bezobsługowy" },
+            { icon: <FaHotTub className="text-[#D4A373]" />, title: "Jacuzzi", desc: "Prywatne" },
+            { icon: <FaSnowflake />, title: "Szlak", desc: "Przed domem" },
           ].map((item, i) => (
             <div key={i} className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-full bg-white border border-stone-200 flex items-center justify-center">
@@ -75,16 +72,14 @@ export default function Hero() {
             target="_blank"
             className="flex items-center justify-center gap-3 px-8 py-4 bg-[#171717] text-white text-sm font-bold uppercase tracking-widest rounded-lg hover:bg-black transition shadow-lg"
           >
-            <FaAirbnb size={20} />
-            Zobacz Dostępność
+            <FaAirbnb size={20} /> Zobacz Dostępność
           </Link>
 
           <a
             href="tel:+48570430338"
             className="flex items-center justify-center gap-3 px-8 py-4 bg-white border border-stone-200 text-[#171717] text-sm font-bold uppercase tracking-widest rounded-lg hover:bg-stone-50 transition"
           >
-            <FaPhone size={18} />
-            Zadzwoń do nas
+            <FaPhone size={18} /> Zadzwoń do nas
           </a>
         </div>
 
@@ -102,37 +97,38 @@ export default function Hero() {
       </div>
 
       {/* RIGHT IMAGE */}
-      <div className="w-full lg:w-1/2 h-[45vh] lg:h-auto relative bg-stone-200 overflow-hidden">
+      <div className="w-full lg:w-1/2 h-[50vh] lg:h-auto relative bg-stone-200 overflow-hidden">
         <Image
-          src="https://images.unsplash.com/photo-1510798831971-661eb04b3739?q=80&w=2000&auto=format&fit=crop"
+          src="/heroimage.jpeg"
           alt="Domek w górach"
           fill
           priority
           className="object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
 
-        {/* INFO CARDS */}
-        <div className="absolute inset-x-4 bottom-4 flex flex-col gap-4 lg:inset-0 lg:block z-20">
-          {/* Parking */}
-          <div className="relative lg:absolute lg:top-8 lg:right-8 bg-white/95 backdrop-blur-sm p-6 rounded-2xl shadow-2xl max-w-[240px] border border-white/20">
+        {/* INFO CARDS - SKRAJNE PRZEŹROCZYSTOŚCI NA DESKTOPIE */}
+        <div className="absolute bottom-0 left-0 w-full p-4 lg:p-0 lg:inset-0 lg:block z-20">
+          
+          {/* Parking - NA DESKTOPIE: PRAKTYCZNIE NIEWIDOCZNE (GHOST GLASS) */}
+          <div className="hidden lg:block absolute top-8 right-8 bg-white/5 backdrop-blur-3xl p-6 rounded-2xl shadow-sm max-w-[240px] border border-white/10">
             <div className="flex items-center justify-between mb-2">
               <FaCar />
-              <span className="text-[10px] font-bold text-[#D4A373] uppercase tracking-wider">
+              <span className="text-[10px] font-bold text-[#cfcbc6] uppercase tracking-wider">
                 W cenie
               </span>
             </div>
             <span className="text-xl font-bold text-[#171717]">Parking</span>
-            <p className="text-xs text-stone-600 border-t pt-2 mt-2">
+            <p className="text-xs text-stone-600 border-t border-white/20 pt-2 mt-2">
               Monitorowane miejsce na posesji.
             </p>
           </div>
 
-          {/* Temperature */}
-          <div className="relative lg:absolute lg:bottom-8 lg:left-8 bg-white/90 backdrop-blur-md p-6 rounded-xl border border-white/50 shadow-xl max-w-xs">
+          {/* Temperature - NA DESKTOPIE: PRAKTYCZNIE NIEWIDOCZNE (GHOST GLASS) */}
+          <div className="hidden lg:block absolute bottom-8 left-8 bg-white/5 backdrop-blur-3xl p-6 rounded-xl shadow-sm max-w-xs">
             <div className="flex items-center gap-4 mb-3">
-              <div className="w-12 h-12 bg-[#171717] text-white flex items-center justify-center rounded-lg font-bold">
-                20°C
+              <div className="w-12 h-12 bg-[#171717] text-white flex items-center justify-center rounded-lg font-bold shadow-sm">
+                21°C
               </div>
               <div>
                 <p className="text-xs uppercase text-stone-500 font-bold">
@@ -144,11 +140,41 @@ export default function Hero() {
               </div>
             </div>
             <div className="flex justify-between text-xs font-medium">
-              <span>85 m²</span>
+              <span>65 m²</span>
               <span>2 Sypialnie</span>
               <span>Sauna</span>
             </div>
           </div>
+
+          {/* MOBILE: PASKI MINIMALISTYCZNE (ZACHOWANE JAK BYŁY) */}
+          <div className="lg:hidden flex flex-col gap-2">
+              
+              {/* Parking Mobile */}
+              <div className="bg-white/10 backdrop-blur-md border border-white/10 rounded-xl p-3 flex justify-between items-center shadow-sm">
+                  <div className="flex items-center gap-2">
+                      <FaCar className="text-white/90" />
+                      <span className="text-white text-sm font-bold">Parking</span>
+                  </div>
+                  <div className="bg-white/20 px-2 py-1 rounded-lg">
+                      <span className="text-[10px] font-bold text-white uppercase tracking-wider">W cenie</span>
+                  </div>
+              </div>
+
+              {/* Temperatura Mobile */}
+              <div className="bg-white/10 backdrop-blur-md border border-white/10 rounded-xl p-3 flex justify-between items-center shadow-sm">
+                  <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center text-white font-bold text-sm">
+                        21°C
+                      </div>
+                      <div className="flex flex-col">
+                          <span className="text-[9px] uppercase text-white/60 tracking-wider">Temp.</span>
+                          <span className="text-white text-[10px] font-bold">Podłogówka</span>
+                      </div>
+                  </div>
+              </div>
+
+          </div>
+
         </div>
       </div>
     </section>
