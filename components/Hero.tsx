@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { 
+import {
   FaPhone,
   FaFire,
   FaSnowflake,
@@ -15,7 +15,6 @@ export default function Hero() {
     <section className="relative w-full min-h-[90vh] bg-[#FAF9F6] flex flex-col lg:flex-row font-sans overflow-hidden">
       {/* LEFT CONTENT */}
       <div className="w-full lg:w-1/2 flex flex-col justify-start items-start px-6 md:px-16 lg:px-24 xl:px-44 py-20 lg:py-24 z-10">
-        
         {/* Badge */}
         <div className="mb-10 relative">
           <div className="absolute inset-0 bg-[#171717]/5 blur-md rounded-full"></div>
@@ -50,7 +49,11 @@ export default function Hero() {
         <div className="flex flex-wrap gap-6 mb-12">
           {[
             { icon: <FaFire />, title: "Kominek", desc: "Bezobsługowy" },
-            { icon: <FaHotTub className="text-[#D4A373]" />, title: "Jacuzzi", desc: "Prywatne" },
+            {
+              icon: <FaHotTub className="text-[#D4A373]" />,
+              title: "Jacuzzi",
+              desc: "Prywatne",
+            },
             { icon: <FaSnowflake />, title: "Szlak", desc: "Przed domem" },
           ].map((item, i) => (
             <div key={i} className="flex items-center gap-3">
@@ -66,20 +69,50 @@ export default function Hero() {
         </div>
 
         {/* CTA */}
-        <div className="flex flex-col sm:flex-row gap-4">
+        <div className="flex flex-col xl:flex-row gap-4 w-full max-w-xl">
+          {" "}
           <Link
             href="https://airbnb.com"
             target="_blank"
-            className="flex items-center justify-center gap-3 px-8 py-4 bg-[#171717] text-white text-sm font-bold uppercase tracking-widest rounded-lg hover:bg-black transition shadow-lg"
+            className="
+    w-full lg:w-auto
+    flex items-center justify-center gap-3
+    px-6 md:px-7 lg:px-8
+    py-4
+    bg-[#171717] text-white
+    text-xs md:text-sm
+    font-bold uppercase
+    tracking-wider
+    whitespace-nowrap
+    rounded-lg
+    hover:bg-black
+    transition
+    shadow-lg
+  "
           >
-            <FaAirbnb size={20} /> Zobacz Dostępność
+            <FaAirbnb size={20} />
+            Zobacz dostępność
           </Link>
-
           <a
             href="tel:+48570430338"
-            className="flex items-center justify-center gap-3 px-8 py-4 bg-white border border-stone-200 text-[#171717] text-sm font-bold uppercase tracking-widest rounded-lg hover:bg-stone-50 transition"
+            className="
+    w-full lg:w-auto
+    flex items-center justify-center gap-3
+    px-6 md:px-7 lg:px-8
+    py-4
+    bg-white border border-stone-200
+    text-[#171717]
+    text-xs md:text-sm
+    font-bold uppercase
+    tracking-wider
+    whitespace-nowrap
+    rounded-lg
+    hover:bg-stone-50
+    transition
+  "
           >
-            <FaPhone size={18} /> Zadzwoń do nas
+            <FaPhone size={18} />
+            Zadzwoń do nas
           </a>
         </div>
 
@@ -99,7 +132,7 @@ export default function Hero() {
       {/* RIGHT IMAGE */}
       <div className="w-full lg:w-1/2 h-[50vh] lg:h-auto relative bg-stone-200 overflow-hidden">
         <Image
-          src="/heroimage.jpeg"
+          src="/hero.png"
           alt="Domek w górach"
           fill
           priority
@@ -109,7 +142,6 @@ export default function Hero() {
 
         {/* INFO CARDS - SKRAJNE PRZEŹROCZYSTOŚCI NA DESKTOPIE */}
         <div className="absolute bottom-0 left-0 w-full p-4 lg:p-0 lg:inset-0 lg:block z-20">
-          
           {/* Parking - NA DESKTOPIE: PRAKTYCZNIE NIEWIDOCZNE (GHOST GLASS) */}
           <div className="hidden lg:block absolute top-8 right-8 bg-white/5 backdrop-blur-3xl p-6 rounded-2xl shadow-sm max-w-[240px] border border-white/10">
             <div className="flex items-center justify-between mb-2">
@@ -148,33 +180,36 @@ export default function Hero() {
 
           {/* MOBILE: PASKI MINIMALISTYCZNE (ZACHOWANE JAK BYŁY) */}
           <div className="lg:hidden flex flex-col gap-2">
-              
-              {/* Parking Mobile */}
-              <div className="bg-white/10 backdrop-blur-md border border-white/10 rounded-xl p-3 flex justify-between items-center shadow-sm">
-                  <div className="flex items-center gap-2">
-                      <FaCar className="text-white/90" />
-                      <span className="text-white text-sm font-bold">Parking</span>
-                  </div>
-                  <div className="bg-white/20 px-2 py-1 rounded-lg">
-                      <span className="text-[10px] font-bold text-white uppercase tracking-wider">W cenie</span>
-                  </div>
+            {/* Parking Mobile */}
+            <div className="bg-white/10 backdrop-blur-md border border-white/10 rounded-xl p-3 flex justify-between items-center shadow-sm">
+              <div className="flex items-center gap-2">
+                <FaCar className="text-white/90" />
+                <span className="text-white text-sm font-bold">Parking</span>
               </div>
-
-              {/* Temperatura Mobile */}
-              <div className="bg-white/10 backdrop-blur-md border border-white/10 rounded-xl p-3 flex justify-between items-center shadow-sm">
-                  <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center text-white font-bold text-sm">
-                        21°C
-                      </div>
-                      <div className="flex flex-col">
-                          <span className="text-[9px] uppercase text-white/60 tracking-wider">Temp.</span>
-                          <span className="text-white text-[10px] font-bold">Podłogówka</span>
-                      </div>
-                  </div>
+              <div className="bg-white/20 px-2 py-1 rounded-lg">
+                <span className="text-[10px] font-bold text-white uppercase tracking-wider">
+                  W cenie
+                </span>
               </div>
+            </div>
 
+            {/* Temperatura Mobile */}
+            <div className="bg-white/10 backdrop-blur-md border border-white/10 rounded-xl p-3 flex justify-between items-center shadow-sm">
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center text-white font-bold text-sm">
+                  21°C
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-[9px] uppercase text-white/60 tracking-wider">
+                    Temp.
+                  </span>
+                  <span className="text-white text-[10px] font-bold">
+                    Podłogówka
+                  </span>
+                </div>
+              </div>
+            </div>
           </div>
-
         </div>
       </div>
     </section>

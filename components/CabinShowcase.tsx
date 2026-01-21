@@ -158,11 +158,11 @@ export default function CabinShowcase() {
                                     </ul>
 
                                     <div className={`group/btn flex items-center justify-between ${dividerColor} border-t pt-6`}>
-                                        <span className={`font-bold uppercase tracking-widest text-xs md:text-sm group-hover/btn:text-[#D4A373] transition-colors ${textColor}`}>
+                                        <span className={`font-bold uppercase tracking-widest text-xs  group-hover/btn:text-[#D4A373] transition-colors ${textColor}`}>
                                             Zobacz szczegóły
                                         </span>
-                                        <div className={`w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 ${btnBg} ${btnHover}`}>
-                                            <FaArrowRight size={14} />
+                                        <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${btnBg} ${btnHover}`}>
+                                            <FaArrowRight size={12} />
                                         </div>
                                     </div>
                                 </div>
