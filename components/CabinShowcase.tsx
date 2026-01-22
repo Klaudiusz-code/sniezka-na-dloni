@@ -95,15 +95,7 @@ function CabinCard({ cabin, idx }) {
             </span>
           </div>
 
-          {/* Logo na zdjęciu (zawsze widoczne) */}
-          <div className="absolute bottom-4 left-4 md:bottom-6 md:left-6 z-20 w-10 h-10 md:w-12 md:h-12 relative">
-            <Image
-              src={cabin.logo}
-              alt={cabin.name}
-              fill
-              className="object-contain"
-            />
-          </div>
+          
 
           <Image
             src={cabin.image}
