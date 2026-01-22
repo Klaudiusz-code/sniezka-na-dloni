@@ -1,7 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
 import { FaArrowRight, FaBed, FaUser, FaRulerCombined } from "react-icons/fa6";
-import { FaFire, FaHotTub } from "react-icons/fa";
 
 const cabins = [
   {
@@ -16,7 +15,7 @@ const cabins = [
       area: "65 m²",
       status: 'available',
       logo: "/logobielik.png",
-      features: ["Widok na las", "Kominek", "Taras"],
+      features: ["Widok na sniezke", "Kominek", "Taras"],
       image: "/onasbielik.jpeg"
   },
   {
@@ -41,39 +40,51 @@ export default function CabinShowcase() {
     <section id="oferta" className="bg-[#FAF9F6] text-[#171717] font-sans py-20 px-6">
         <div className="max-w-[1600px] mx-auto">
             <div className="text-center px-6 mb-20">
-                <h2 className="text-4xl md:text-5xl font-serif text-[#171717]">Wybierz Swój Kąt</h2>
-                <p className="text-stone-500 mt-4 font-light">Dwa domki. Jeden luksusowy standard.</p>
+                <h2 className="text-3xl md:text-5xl font-serif text-[#171717]">Wybierz Swój Świat Na Chwilę</h2>
+                <p className="text-stone-500 mt-4 font-light">Dwa domki. Jeden komfortowy standard.</p>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
                 {cabins.map((cabin, idx) => {
                     const isDark = cabin.name.includes("Czarny");
                     const isAvailable = cabin.status === 'available';
                     const statusDotColor = isAvailable ? 'bg-green-500' : 'bg-red-500';
                     const statusText = isAvailable ? 'Dostępny' : 'Niedostępny';
 
+
                     const cardBg = isDark ? 'bg-[#050505]' : 'bg-white';
-                    const cardBorder = isDark ? 'border-[#1f1f1f]' : 'border-stone-200';
+                    
+                    const cardBorder = isDark ? 'border-[#1f1f1f]' : 'border-stone-500'; 
+                    
+                    const shadowClass = isDark 
+                        ? 'shadow-[0_20px_60px_-15px_rgba(0,0,0,0.5)]' 
+                        : 'shadow-[0_20px_50px_-12px_rgba(0,0,0,0.12)] hover:shadow-[0_30px_60px_-12px_rgba(0,0,0,0.15)]';
+
                     const textColor = isDark ? 'text-white' : 'text-[#171717]';
-                    const subTextColor = isDark ? 'text-stone-500' : 'text-stone-400';
-                    const dividerColor = isDark ? 'border-[#1f1f1f]' : 'border-stone-100';
-                    const paramBg = isDark ? 'bg-[#111]' : 'bg-stone-50';
-                    const paramBorder = isDark ? 'border-[#222]' : 'border-transparent';
+                    const subTextColor = isDark ? 'text-stone-500' : 'text-stone-500';
+                    const dividerColor = isDark ? 'border-[#1f1f1f]' : 'border-stone-200';
+                    
+                    const paramBg = isDark ? 'bg-[#111]' : 'bg-stone-100';
+                    const paramBorder = isDark ? 'border-[#222]' : 'border-stone-200';
                     
                     const btnBg = isDark ? 'bg-white text-[#050505]' : 'bg-[#171717] text-white';
                     const btnHover = isDark ? 'group-hover/btn:bg-[#D4A373] group-hover/btn:text-[#050505]' : 'group-hover/btn:bg-[#D4A373] group-hover/btn:text-[#171717]';
+
+                    const imageGradient = isDark
+                        ? 'lg:from-black/80'
+                        : 'lg:from-stone-100/80';
 
                     return (
                     <Link 
                         href={cabin.slug} 
                         key={cabin.id} 
-                        className={`group block shadow-xl rounded-[2.5rem] overflow-hidden border hover:-translate-y-2 transition-all duration-500 min-h-[600px] ${cardBg} ${cardBorder}`}
+                        className={`group block rounded-[2.5rem] overflow-hidden border ${cardBorder} ${shadowClass} hover:-translate-y-1 transition-all duration-500 min-h-[600px] ${cardBg}`}
                     >
                         <div className="flex flex-col lg:flex-row h-full">
                             
                             <div className="relative w-full lg:w-1/2 h-72 lg:h-auto min-h-[350px] overflow-hidden">
                                 
-                                <div className={`absolute top-6 left-6 z-20 inline-flex items-center gap-2 px-4 py-2 rounded-full backdrop-blur-md shadow-sm border ${isDark ? 'bg-[#1a1a1a] border-red-900/20 text-stone-400' : 'bg-white/90 border-stone-200 text-stone-600'}`}>
+                                <div className={`absolute top-6 left-6 z-20 inline-flex items-center gap-2 px-4 py-2 rounded-full backdrop-blur-md shadow-sm border ${isDark ? 'bg-[#1a1a1a] border-red-900/20 text-stone-400' : 'bg-white/95 border-stone-200 text-stone-700 shadow-md'}`}>
                                     <span className={`w-2 h-2 rounded-full ${statusDotColor} ${isAvailable ? 'animate-pulse' : ''}`}></span>
                                     <span className="text-[10px] font-bold uppercase tracking-widest">
                                         {statusText}
@@ -98,10 +109,10 @@ export default function CabinShowcase() {
                                     className="object-cover transition-transform duration-1000 group-hover:scale-105"
                                     priority={idx === 0}
                                 />
-                                <div className={`absolute inset-0 bg-gradient-to-t from-white/60 to-transparent lg:from-white/40 lg:to-transparent ${isDark ? 'lg:from-black/80' : ''}`}></div>
+                                <div className={`absolute inset-0 bg-gradient-to-t from-white/60 to-transparent lg:from-white/40 lg:to-transparent ${imageGradient}`}></div>
                             </div>
 
-                            <div className={`w-full lg:w-1/2 p-8 md:p-12 flex flex-col justify-between ${isDark ? 'bg-[#050505]' : 'bg-white'}`}>
+                            <div className={`w-full lg:w-1/2 p-8 md:p-12 flex flex-col justify-between ${cardBg}`}>
                                 
                                 <div className="flex flex-col gap-6 mb-8">
                                     <div className="flex items-start justify-between gap-4">
@@ -131,17 +142,17 @@ export default function CabinShowcase() {
 
                                 <div className="flex-grow flex flex-col justify-between">
                                     <div className={`grid grid-cols-3 gap-4 mb-8 ${dividerColor} border-t`}>
-                                        <div className={`text-center p-3 ${paramBg} rounded-xl ${paramBorder}`}>
+                                        <div className={`text-center p-3 ${paramBg} rounded-xl ${paramBorder} transition-colors group-hover:bg-[#D4A373]/20`}>
                                             <FaUser className="text-[#D4A373] mx-auto mb-1 text-lg" />
                                             <p className="text-[10px] uppercase tracking-widest text-stone-500">Goście</p>
                                             <p className={`font-bold text-sm ${textColor}`}>{cabin.guests}</p>
                                         </div>
-                                        <div className={`text-center p-3 ${paramBg} rounded-xl ${paramBorder}`}>
+                                        <div className={`text-center p-3 ${paramBg} rounded-xl ${paramBorder} transition-colors group-hover:bg-[#D4A373]/20`}>
                                             <FaBed className="text-[#D4A373] mx-auto mb-1 text-lg" />
                                             <p className="text-[10px] uppercase tracking-widest text-stone-500">Sypialnie</p>
                                             <p className={`font-bold text-sm ${textColor}`}>{cabin.beds}</p>
                                         </div>
-                                        <div className={`text-center p-3 ${paramBg} rounded-xl ${paramBorder}`}>
+                                        <div className={`text-center p-3 ${paramBg} rounded-xl ${paramBorder} transition-colors group-hover:bg-[#D4A373]/20`}>
                                             <FaRulerCombined className="text-[#D4A373] mx-auto mb-1 text-lg" />
                                             <p className="text-[10px] uppercase tracking-widest text-stone-500">Metraż</p>
                                             <p className={`font-bold text-sm ${textColor}`}>{cabin.area}</p>

@@ -43,7 +43,7 @@ export default function IntroStatement() {
                 </p>
               </div>
 
-              <a href="#oferta" className="group inline-flex items-center gap-3 border-b border-white/10 pb-1 hover:border-[#D4A373] transition-all duration-300 mt-8">
+              <a href="/oferta" className="group inline-flex items-center gap-3 border-b border-white/10 pb-1 hover:border-[#D4A373] transition-all duration-300 mt-8">
                 <span className="text-sm font-bold uppercase tracking-widest text-stone-500 group-hover:text-[#D4A373] transition-colors">
                   Zobacz ofertę domków
                 </span>
