@@ -1,5 +1,5 @@
 const REVALIDATE_TIME = 60;
-const GQL_API_URL = "http://sniezkanadloni.pl/graphql";
+const GQL_API_URL = "https://sniezkanadloni.pl/graphql";
 
 export const getHomePageData = async () => {
   const res = await fetch(GQL_API_URL, {

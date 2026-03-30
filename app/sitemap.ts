@@ -35,13 +35,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   try {
     const [pagesRes, cabinsRes] = await Promise.all([
-      fetch("http://sniezkanadloni.pl/graphql", {
+      fetch("https://sniezkanadloni.pl/graphql", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ query: staticPagesQuery }),
         next: { revalidate: 3600 },
       }),
-      fetch("http://sniezkanadloni.pl/graphql", {
+      fetch("https://sniezkanadloni.pl/graphql", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ query: cabinsQuery }),
