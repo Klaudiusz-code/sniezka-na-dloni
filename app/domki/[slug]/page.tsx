@@ -224,7 +224,7 @@ export default async function CabinPage({ params }: Props) {
                       <p
                         className={`text-2xl font-serif ${isDark ? "text-white" : "text-[#1a1a1a]"}`}
                       >
-                        {domki.cena} zł
+                      Od  {domki.cena} zł
                       </p>
                     </div>
                     <span className={`text-sm ${theme.priceText}`}>/noc</span>

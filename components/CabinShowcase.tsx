@@ -155,7 +155,7 @@ function CabinCard({ cabin, slug, idx }: CabinCardProps) {
                   <span
                     className={`text-2xl md:text-4xl font-serif ${textColor}`}
                   >
-                    {cabin.cena}
+                    Od {cabin.cena}
                   </span>
                   <span
                     className={`text-xs md:text-sm font-sans font-normal ${subTextColor}`}
@@ -278,7 +278,6 @@ function CabinCard({ cabin, slug, idx }: CabinCardProps) {
               </div>
             </div>
 
-            {/* WYRÓŻNIKI ZAMIAST UDOGODNIEŃ */}
             {wyrozniki.length > 0 && (
               <ul className="space-y-1.5 md:space-y-2 mb-4 md:mb-6">
                 {wyrozniki.map((wyroznik, wIdx) => (

@@ -199,6 +199,12 @@ export default async function Footer() {
             >
               Polityka Prywatności
             </Link>
+            <Link
+              href="/regulamin"
+              className="hover:text-white transition"
+            >
+              Regulamin{" "}
+            </Link>
           </div>
         </div>
       </div>
