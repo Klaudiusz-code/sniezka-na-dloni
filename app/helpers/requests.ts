@@ -76,9 +76,11 @@ export const getCabins = async () => {
                   udogodnienie
                 }
                 domekOpiniaTresc
-                galeria {
-                  nodes {
-                    sourceUrl
+                galeria(first: 50) {
+                  edges {
+                    node {
+                      sourceUrl
+                    }
                   }
                 }
                 przycisk {
@@ -152,11 +154,11 @@ export const getCabinBySlug = async (slug: string) => {
             udogodnienie
           }
           domekOpiniaTresc
-            galeria {
-                nodes {
-                sourceUrl
-               }
-            }
+        galeria(first: 50) {
+          nodes {
+            sourceUrl
+              }
+                  } 
           przycisk{
             linkAirbnb
           }
