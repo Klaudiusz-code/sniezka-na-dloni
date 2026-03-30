@@ -1,11 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ["localhost"],
     remotePatterns: [
       {
+        protocol: "http",
+        hostname: "sniezkanadloni.pl",
+      },
+      {
         protocol: "https",
-        hostname: "images.unsplash.com",
+        hostname: "sniezkanadloni.pl",
       },
     ],
   },

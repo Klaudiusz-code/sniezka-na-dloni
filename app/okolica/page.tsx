@@ -1,78 +1,31 @@
 import Footer from "@/components/Footer";
 import Menu from "@/components/Menu";
 import { LiaArrowRightSolid } from "react-icons/lia";
-import Head from "next/head";
+import { Metadata } from "next";
+import { getOkolicaData, getGlobalSettings } from "../helpers/requests";
 
-async function getOkolicaData() {
-  const res = await fetch("http://localhost/sniezka/graphql", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      query: `
-        query OkolicaPage {
-          page(id: "cG9zdDoxOQ") {
-            seo {
-              title
-              description
-              openGraph {
-                title
-                description
-                siteName
-                locale
-                type
-                updatedTime
-              }
-            }
-            okolica {
-              attractionsSection {
-                title
-                opisAtrakcji
-                time
-              }
-            }
-          }
-        }
-      `,
-    }),
-    next: { revalidate: 60 },
-  });
+export async function generateMetadata(): Promise<Metadata> {
+  const { seo } = await getOkolicaData();
 
-  const json = await res.json();
-  return json?.data?.page; 
+  return {
+    title: seo?.title || "Okolica – Śnieżka na dłoni",
+    description: seo?.description || "Atrakcje w okolicy naszych domków",
+    openGraph: {
+      title: seo?.openGraph?.title || seo?.title,
+      description: seo?.openGraph?.description || seo?.description,
+      siteName: seo?.openGraph?.siteName || "Śnieżka na dłoni",
+      locale: seo?.openGraph?.locale || "pl_PL",
+      type: seo?.openGraph?.type || "article",
+    },
+  };
 }
 
 export default async function Okolica() {
-  const pageData = await getOkolicaData();
-  const seo = pageData?.seo;
-  const attractions = pageData?.okolica?.attractionsSection || [];
+  const { attractions } = await getOkolicaData();
+  const settings = await getGlobalSettings();
 
   return (
     <>
-      <Head>
-        <title>{seo?.title || "Okolica – Śnieżka na dłoni"}</title>
-        <meta
-          name="description"
-          content={seo?.description || "Atrakcje w okolicy naszych domków"}
-        />
-        <meta
-          property="og:title"
-          content={seo?.openGraph?.title || seo?.title}
-        />
-        <meta
-          property="og:description"
-          content={seo?.openGraph?.description || seo?.description}
-        />
-        <meta
-          property="og:site_name"
-          content={seo?.openGraph?.siteName || "Śnieżka na dłoni"}
-        />
-        <meta
-          property="og:locale"
-          content={seo?.openGraph?.locale || "PL_PL"}
-        />
-        <meta property="og:type" content={seo?.openGraph?.type || "article"} />
-      </Head>
-
       <Menu />
       <main className="bg-[#050505] text-white font-sans min-h-screen selection:bg-[#D4A373] selection:text-black">
         <section className="pt-32 pb-16 md:pt-48 md:pb-20 relative overflow-hidden">
@@ -101,6 +54,7 @@ export default async function Okolica() {
           </div>
         </section>
 
+        {/* LISTA ATRAKCJI */}
         <section className="pb-32 px-6 relative z-10">
           <div className="max-w-4xl mx-auto">
             <div className="flex flex-col">
@@ -165,13 +119,13 @@ export default async function Okolica() {
 
             <div className="flex flex-col sm:flex-row gap-4 w-full md:w-auto">
               <a
-                href="tel:570430338"
+                href={`tel:${settings?.numerTelefonu || "#"}`}
                 className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-white/5 border border-white/10 text-white text-sm font-bold uppercase tracking-widest rounded-full hover:bg-white hover:text-black transition-all duration-300"
               >
                 Zadzwoń do nas
               </a>
               <a
-                href="https://www.google.com/maps/search/?api=1&query=Kostrzyca+ul+Karpacka"
+                href={settings?.linkDoGoogleMaps || "#"}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-[#D4A373] text-[#050505] text-sm font-bold uppercase tracking-widest rounded-full hover:bg-white hover:scale-105 transition-all duration-300 shadow-lg shadow-[#D4A373]/20"
@@ -182,7 +136,6 @@ export default async function Okolica() {
           </div>
         </section>
       </main>
-
       <Footer />
     </>
   );

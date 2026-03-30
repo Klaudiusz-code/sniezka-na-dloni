@@ -37,7 +37,7 @@ export default function AmenitiesGrid({ data }: any) {
               className="group block relative h-[750px] md:h-[600px] border-r border-white/10 overflow-hidden last:border-r-0 bg-[#0a0a0a]"
             >
               <img
-                src={feature?.featureImage?.node?.uri}
+                src={feature?.featureImage?.node?.sourceUrl}
                 alt={feature?.tytulCechy}
                 className="w-full h-full object-cover transition-all duration-[1.5s] ease-in-out grayscale brightness-75 group-hover:grayscale-0 group-hover:brightness-110 group-hover:scale-105 absolute inset-0"
               />

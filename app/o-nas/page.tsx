@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image"; // DODANY IMPORT
 import {
   FaMapMarkerAlt,
   FaHotTub,
@@ -6,87 +7,39 @@ import {
   FaFire,
   FaMountain,
 } from "react-icons/fa";
-import Menu from "../../components/Menu";
-import Footer from "../../components/Footer";
-import Head from "next/head";
+import Menu from "@/components/Menu";
+import Footer from "@/components/Footer";
+import { Metadata } from "next";
+import { getAboutData, getGlobalSettings } from "../helpers/requests";
 
-async function getAboutData() {
-  const res = await fetch("http://localhost/sniezka/graphql", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      query: `
-        query AboutPage {
-          pageBy(uri: "/o-nas/") {
-            seo {
-              title
-              description
-              openGraph {
-                title
-                description
-                siteName
-                locale
-                type
-                updatedTime
-              }
-            }
-            oNas {
-              tytulObokZdjecia
-              opis
-              doswiadczenie {
-                aboutExperienceTitle
-                aboutExperienceDesc
-              }
-            }
-          }
-        }
-      `,
-    }),
-    next: { revalidate: 60 },
-  });
+export async function generateMetadata(): Promise<Metadata> {
+  const { seo } = await getAboutData();
 
-  const json = await res.json();
-  return json?.data?.pageBy;
+  return {
+    title: seo?.title || "O Nas – Śnieżka na dłoni",
+    description:
+      seo?.description || "Dwa luksusowe domki – poznaj naszą historię",
+    openGraph: {
+      title: seo?.openGraph?.title || seo?.title || "O Nas – Śnieżka na dłoni",
+      description:
+        seo?.openGraph?.description ||
+        seo?.description ||
+        "Dwa luksusowe domki – poznaj naszą historię",
+      siteName: seo?.openGraph?.siteName || "Śnieżka na dłoni",
+      locale: seo?.openGraph?.locale || "pl_PL",
+      type: seo?.openGraph?.type || "article",
+    },
+  };
 }
 
 export default async function AboutPage() {
-  const pageData = await getAboutData();
-  const seo = pageData?.seo;
-  const oNas = pageData?.oNas || {
-    tytulObokZdjecia: "",
-    opis: "",
-    doswiadczenie: [],
-  };
+  const { oNas } = await getAboutData();
+  const settings = await getGlobalSettings();
+
+  const imageUrl = oNas?.aboutImage?.node?.sourceUrl;
 
   return (
     <>
-      <Head>
-        <title>{seo?.title || "O Nas – Śnieżka na dłoni"}</title>
-        <meta
-          name="description"
-          content={
-            seo?.description || "Dwa luksusowe domki – poznaj naszą historię"
-          }
-        />
-        <meta
-          property="og:title"
-          content={seo?.openGraph?.title || seo?.title}
-        />
-        <meta
-          property="og:description"
-          content={seo?.openGraph?.description || seo?.description}
-        />
-        <meta
-          property="og:site_name"
-          content={seo?.openGraph?.siteName || "Śnieżka na dłoni"}
-        />
-        <meta
-          property="og:locale"
-          content={seo?.openGraph?.locale || "PL_PL"}
-        />
-        <meta property="og:type" content={seo?.openGraph?.type || "article"} />
-      </Head>
-
       <Menu />
 
       <main className="bg-[#FAF9F6] text-[#171717] font-sans min-h-screen selection:bg-[#D4A373] selection:text-white">
@@ -109,9 +62,19 @@ export default async function AboutPage() {
           <div className="max-w-7xl mx-auto px-6">
             <div className="flex flex-col lg:flex-row justify-between items-center gap-16">
               <div className="w-full lg:w-5/12 aspect-[4/5] rounded-[2.5rem] relative overflow-hidden shadow-2xl group">
-                <div className="absolute inset-0 bg-gradient-to-b from-[#e5e5e5] via-[#d4d4d4] to-[#f0f0f0] group-hover:scale-105 transition-transform duration-1000"></div>
-                <div className="absolute -bottom-20 -left-20 w-[150%] h-[80%] bg-gradient-to-r from-white to-transparent rounded-t-full blur-xl opacity-80"></div>
-                <div className="absolute inset-0 flex items-end p-10 bg-gradient-to-t from-black/60 to-transparent">
+                {imageUrl ? (
+                  <Image
+                    src={imageUrl}
+                    alt={oNas?.tytulObokZdjecia || "O nas - Śnieżka na dłoni"}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-1000"
+                    sizes="(max-width: 1024px) 100vw, 40vw"
+                  />
+                ) : (
+                  <div className="absolute inset-0 bg-gradient-to-b from-[#e5e5e5] via-[#d4d4d4] to-[#f0f0f0] group-hover:scale-105 transition-transform duration-1000"></div>
+                )}
+
+                <div className="absolute inset-0 flex items-end p-10 bg-gradient-to-t from-black/60 via-transparent to-transparent">
                   <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
                     <FaMountain className="text-white/80 text-3xl mb-2" />
                     <p className="font-serif text-3xl text-white">
@@ -167,9 +130,7 @@ export default async function AboutPage() {
               {oNas?.doswiadczenie?.map((exp: any, i: any) => (
                 <div key={i} className="group relative">
                   <div className="flex items-start gap-10 md:gap-16">
-                    <div
-                      className={`hidden md:flex flex-col items-center gap-2`}
-                    >
+                    <div className="hidden md:flex flex-col items-center gap-2">
                       <div className="w-20 h-20 rounded-2xl bg-white border border-stone-200 flex items-center justify-center shadow-sm group-hover:scale-110 group-hover:border-[#D4A373] group-hover:text-[#D4A373] transition-all duration-500">
                         {i === 0 && (
                           <FaHotTub
@@ -229,7 +190,7 @@ export default async function AboutPage() {
                 Wybierz domek
               </Link>
               <a
-                href="tel:570430338"
+                href={`tel:${settings?.numerTelefonu || "#"}`}
                 className="px-12 py-5 bg-transparent text-white border border-white/20 text-sm font-bold uppercase tracking-widest rounded-full hover:bg-white hover:text-[#171717] transition-colors duration-300"
               >
                 Zadzwoń teraz

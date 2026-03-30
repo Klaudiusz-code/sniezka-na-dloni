@@ -8,53 +8,30 @@ import Testimonials from "@/components/Testimonials";
 import TopBar from "@/components/TopBar";
 import CabinShowcase from "@/components/CabinShowcase";
 import Statue from "@/components/Statue";
+import {
+  getCabins,
+  getHomePageData,
+  getGlobalSettings,
+} from "./helpers/requests"; 
 
 export async function generateMetadata() {
-  const res = await fetch("http://localhost/sniezka/graphql", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      query: `
-        query SEO {
-          page(id: "cG9zdDoxMQ") {
-            seo {
-              title
-              description
-              openGraph {
-                title
-                description
-                siteName
-                locale
-                type
-              }
-            }
-          }
-        }
-      `,
-    }),
-    next: { revalidate: 60 },
-  });
+  const { hero } = await getHomePageData(); 
 
-  const json = await res.json();
-  const seo = json?.data?.page?.seo;
-
-  const title =
-    seo?.title || "Domki w Karkonoszach – noclegi z widokiem na góry";
+  const title = "Śnieżka na Dłoni – Luksusowe Domki w Karkonoszach";
   const description =
-    seo?.description ||
-    "Nowoczesne domki w Karkonoszach. Komfortowe noclegi, piękne widoki i idealna lokalizacja na wypoczynek.";
+    "Całoroczne domki widokowe w Kostrzycy k. Karpacza. Wyjątkowy wypoczynek blisko natury.";
 
   return {
     title,
     description,
-    metadataBase: new URL("https://twojadomena.pl"),
+    metadataBase: new URL("https://sniezkanadloni.pl"),
     alternates: { canonical: "/" },
     openGraph: {
-      title: seo?.openGraph?.title || title,
-      description: seo?.openGraph?.description || description,
-      siteName: seo?.openGraph?.siteName || "Domki Karkonosze",
-      locale: seo?.openGraph?.locale || "pl_PL",
-      type: seo?.openGraph?.type || "website",
+      title,
+      description,
+      siteName: "Śnieżka na Dłoni",
+      locale: "pl_PL",
+      type: "website",
       url: "/",
     },
     twitter: { card: "summary_large_image", title, description },
@@ -63,173 +40,63 @@ export async function generateMetadata() {
 }
 
 const page = async () => {
-  // Fetch główne dane strony
-  const res = await fetch("http://localhost/sniezka/graphql", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      query: `
-        query HomePage {
-          page(id: "cG9zdDoxMQ") {
-            stronaGlowna {
-              sekcjaHero {
-                heroBadgeTitle
-                heroBadgeSubtitle   
-                heroTitleMain
-                heroTitleAccent
-                heroDescription
-                heroFeatures {
-                  nazwa
-                  opis
-                }
-                heroCta {
-                  primarryButton
-                  primaryLink
-                  secondaryPhone
-                  secondaryText
-                }
-              }
-              introSection {
-                lokalizacja
-                title
-                content
-                przycisk {
-                  buttonText
-                  linkPrzycisku
-                }
-              }
-              coNasWyroznia {
-                amenitiesGrid {
-                  tytulCechy
-                  podtytul
-                  featureImage {
-                    node {
-                      uri
-                    }
-                  }
-                  featureItems {
-                    tekstPunktu
-                  }
-                }
-              }
-              testimonials {
-                trescOpinii
-                imie
-                data
-              }
-              zasadyPobytu {
-                stayRules
-                sectionSubtitle
-                notes
-              }
-              lokalizacja {
-                sectionTitle
-                sectionSubtitle
-                przyciski {
-                  buttonEmail {
-                    emailAdress
-                  }
-                  phoneButton {
-                    phoneNumber
-                  }
-                  mapa
-                }
-              }
-            }
-          }
-        }
-      `,
-    }),
-    next: { revalidate: 60 },
-  });
+  const { hero, intro, features, testimonials, statues, location } =
+    await getHomePageData();
 
-  const json = await res.json();
+  const { cabins } = await getCabins();
+  const settings = await getGlobalSettings();
 
-  const hero = json?.data?.page?.stronaGlowna?.sekcjaHero;
-  const intro = json?.data?.page?.stronaGlowna?.introSection;
-  const features = json?.data?.page?.stronaGlowna?.coNasWyroznia?.amenitiesGrid;
-  const testimonials = json?.data?.page?.stronaGlowna?.testimonials;
-  const statues = json?.data?.page?.stronaGlowna?.zasadyPobytu;
-  const location = json?.data?.page?.stronaGlowna?.lokalizacja;
-
-  // Fetch domki
-  const cabinsRes = await fetch("http://localhost/sniezka/graphql", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      query: `
-        query Domki {
-          domki {
-            edges {
-              node {
-                domki {
-                  tytul
-                  czyDostepny
-                  logoDomku {
-                    node {
-                      sourceUrl
-                    }
-                  }
-                  zdjecieGlowne {
-                    node {
-                      sourceUrl
-                    }
-                  }
-                  cena
-                  okres
-                  liczbaGosci
-                  liczbaSypialni
-                  metraz
-                  domekWyrozniki {
-                    wyroznik
-                  }
-                  krotkiOpisPodNaglowkiem
-                  domekStruktura {
-                    tytul
-                  }
-                  domekUdogodnienia {
-                    udogodnienie
-                  }
-                  domekOpiniaTresc
-                  galeriaZdjec {
-                    galleryImage {
-                      node {
-                        sourceUrl
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      `,
-    }),
-    next: { revalidate: 60 },
-  });
-
-  const cabinsJson = await cabinsRes.json();
-  const cabins = cabinsJson?.data?.domki?.edges || [];
+  const localBusinessSchema = {
+    "@context": "https://schema.org",
+    "@type": "LodgingBusiness",
+    name: "Śnieżka na Dłoni",
+    description: "Luksusowe domki widokowe w Kostrzycy",
+    url: "https://sniezkanadloni.pl",
+    telephone: settings?.numerTelefonu,
+    email: settings?.email,
+    address: {
+      "@type": "PostalAddress",
+      streetAddress:
+        settings?.adresFizyczny?.split("\n")[0] || "ul. Karpacka 103 C",
+      addressLocality: "Kostrzyca",
+      postalCode: "58-532",
+      addressCountry: "PL",
+    },
+    hasMap: "https://share.google/HhrgYbsHppmknnzWL",
+    sameAs: [
+      settings?.facebook || "#",
+    ],
+  };
 
   return (
-    <div className="bg-white text-[#171717] font-sans antialiased">
-      <TopBar />
-      <Menu />
+    <>
+    
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(localBusinessSchema),
+        }}
+      />
 
-      <Hero data={hero} />
+      <div className="bg-white text-[#171717] font-sans antialiased">
+        <TopBar />
+        <Menu />
 
-      <CabinShowcase cabins={cabins} />
+        <Hero data={hero} />
 
-      <IntroStatement data={intro} />
-      <AmenitiesGrid data={features} />
+        <CabinShowcase cabins={cabins} />
 
-      <Testimonials data={testimonials} />
-      <Statue data={statues} />
+        <IntroStatement data={intro} />
+        <AmenitiesGrid data={features} />
 
-      <LocationBox data={location} />
+        <Testimonials data={testimonials} />
+        <Statue data={statues} />
 
-      <Footer />
-    </div>
+        <LocationBox data={location} />
+
+        <Footer />
+      </div>
+    </>
   );
 };
 

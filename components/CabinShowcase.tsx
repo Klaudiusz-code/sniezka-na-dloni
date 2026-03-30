@@ -13,6 +13,7 @@ import {
 } from "react-icons/fa6";
 
 interface Cabin {
+  slug: string;
   tytul: string;
   czyDostepny: boolean;
   logoDomku?: { node: { sourceUrl: string } } | null;
@@ -34,23 +35,32 @@ interface Cabin {
 
 interface CabinNode {
   node: {
-    domki: Cabin;
-  };
+    slug: string;
+    domki: Cabin | null;
+  } | null;
+}
+
+interface CabinCardProps {
+  cabin: Cabin;
+  slug: string;
+  idx: number;
 }
 
 interface CabinShowcaseProps {
   cabins: CabinNode[];
 }
 
-function CabinCard({ cabin, idx }: { cabin: Cabin; idx: number }) {
+function CabinCard({ cabin, slug, idx }: CabinCardProps) {
   const [isPackageActive, setIsPackageActive] = useState(false);
-
   const isDark = cabin.tytul.includes("Czarny");
   const isAvailable = cabin.czyDostepny;
   const basePrice = parseInt(cabin.cena);
   const packageDays = 3;
   const packagePrice = 1800;
   const savings = basePrice * packageDays - packagePrice;
+
+  // Pobieranie wyróżników zamiast udogodnień
+  const wyrozniki = cabin.domekWyrozniki?.map((w) => w.wyroznik) || [];
 
   const cardBg = isDark ? "bg-[#050505]" : "bg-stone-200";
   const cardBorder = isDark ? "border-[#1f1f1f]" : "border-stone-300";
@@ -74,15 +84,11 @@ function CabinCard({ cabin, idx }: { cabin: Cabin; idx: number }) {
 
   const imageSrc =
     cabin.zdjecieGlowne?.node?.sourceUrl || "/placeholder-cabin.jpg";
-  const logoSrc = cabin.logoDomku?.node?.sourceUrl || "/placeholder-logo.png";
-
-  const features = cabin.domekUdogodnienia?.map((f) => f.udogodnienie) || [
-    "Brak udogodnień",
-  ];
+  const logoSrc = cabin.logoDomku?.node?.sourceUrl || "/test.png";
 
   return (
     <Link
-      href={`domki/${cabin.tytul.toLowerCase().replace(/\s+/g, "-")}`}
+      href={`/domki/${slug}`}
       className={`group block rounded-[2.5rem] overflow-hidden border transition-all duration-700 ease-out min-h-[500px] relative ${cardBg} ${cardBorder} ${shadowClass} hover:-translate-y-1`}
     >
       <div className="flex flex-col lg:flex-col xl:flex-row h-full">
@@ -272,19 +278,22 @@ function CabinCard({ cabin, idx }: { cabin: Cabin; idx: number }) {
               </div>
             </div>
 
-            <ul className="space-y-1.5 md:space-y-2 mb-4 md:mb-6">
-              {features.map((feature, fIdx) => (
-                <li
-                  key={fIdx}
-                  className={`flex items-center gap-2 text-xs md:text-sm font-light ${
-                    isDark ? "text-stone-400" : "text-stone-600"
-                  }`}
-                >
-                  <div className="w-1 h-1 rounded-full bg-[#D4A373] flex-shrink-0"></div>
-                  {feature}
-                </li>
-              ))}
-            </ul>
+            {/* WYRÓŻNIKI ZAMIAST UDOGODNIEŃ */}
+            {wyrozniki.length > 0 && (
+              <ul className="space-y-1.5 md:space-y-2 mb-4 md:mb-6">
+                {wyrozniki.map((wyroznik, wIdx) => (
+                  <li
+                    key={wIdx}
+                    className={`flex items-center gap-2 text-xs md:text-sm font-light ${
+                      isDark ? "text-stone-400" : "text-stone-600"
+                    }`}
+                  >
+                    <div className="w-1 h-1 rounded-full bg-[#D4A373] flex-shrink-0"></div>
+                    {wyroznik}
+                  </li>
+                ))}
+              </ul>
+            )}
 
             <div
               className={`group/btn flex items-center justify-between ${dividerColor} border-t pt-4 md:pt-6`}
@@ -326,9 +335,16 @@ export default function CabinShowcase({ cabins }: CabinShowcaseProps) {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12">
-          {cabins.map(({ node }, idx) => (
-            <CabinCard key={idx} cabin={node.domki} idx={idx} />
-          ))}
+          {cabins.map(({ node }, idx) =>
+            node && node.domki ? (
+              <CabinCard
+                key={idx}
+                cabin={node.domki}
+                slug={node.slug}
+                idx={idx}
+              />
+            ) : null,
+          )}
         </div>
       </div>
     </section>

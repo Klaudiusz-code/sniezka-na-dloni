@@ -18,9 +18,10 @@ export default function Testimonials({ data }: any) {
             >
               <FaQuoteLeft className="text-stone-300 text-4xl mb-6" />
 
-              <p className="text-stone-700 font-light leading-relaxed mb-8 italic text-lg">
-                "{rev?.trescOpinii}"
-              </p>
+              <div
+                className="text-stone-700 font-light leading-relaxed mb-8 italic text-lg [&_p]:mb-2 [&_p]:last:mb-0"
+                dangerouslySetInnerHTML={{ __html: rev?.trescOpinii || "" }}
+              />
 
               <div className="flex justify-between items-center">
                 <div>
