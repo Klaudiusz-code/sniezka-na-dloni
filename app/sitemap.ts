@@ -100,14 +100,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
 
       if (imageUrl) {
-        cabinEntry.images = [
-          {
-            loc: imageUrl,
-            title: cabin.domki?.tytul || "Domek Śnieżka Nad Dłoni",
-            caption: cabin.domki?.tytul || "Luksusowy domek w Karkonoszach",
-          },
-        ];
-      }
+			cabinEntry.images = [imageUrl];
+		}
 
       return cabinEntry;
     });
